@@ -1,0 +1,24 @@
+.storage-hud {
+  position: absolute;
+  bottom: 1.2cqh;
+  left: 2.4cqw;
+  z-index: 5;
+  display: grid;
+  gap: 0.4cqh;
+  max-width: 42cqw;
+  pointer-events: none;
+  font-size: 1.6cqw;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(244, 234, 215, 0.25);
+  line-height: 1.25;
+}
+
+.storage-hud-alert {
+  color: rgba(215, 176, 138, 0.72);
+  letter-spacing: 0.06em;
+  text-transform: none;
+  font-size: 1.6cqw;
+}
+

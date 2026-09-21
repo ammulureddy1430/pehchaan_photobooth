@@ -1,0 +1,295 @@
+/* Payment Screen - Pehchaan Photobooth Luxury Gold & Dark Theme */
+
+.payment-screen {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 3.5cqh 4cqw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: radial-gradient(circle at 50% 25%, #181510 0%, #0c0b09 70%, #050504 100%);
+  color: #f7f3eb;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+.payment-screen::before {
+  content: '';
+  position: absolute;
+  inset: 1.2cqw;
+  border: 1px solid rgba(232, 213, 163, 0.25);
+  border-radius: 1.5rem;
+  pointer-events: none;
+}
+
+.payment-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.8cqh;
+  margin-top: 1cqh;
+  z-index: 2;
+}
+
+.payment-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.9rem;
+  background: rgba(232, 213, 163, 0.12);
+  border: 1px solid rgba(232, 213, 163, 0.3);
+  border-radius: 9999px;
+  color: #e8d5a3;
+  font-size: 1.7cqw;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.payment-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 5cqw;
+  font-weight: 600;
+  color: #f7f3eb;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.payment-event-name {
+  font-size: 2.2cqw;
+  color: #c4b595;
+  margin: 0;
+}
+
+.payment-card {
+  width: 100%;
+  max-width: 520px;
+  background: rgba(20, 18, 15, 0.85);
+  border: 1px solid rgba(232, 213, 163, 0.3);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.6), 0 0 30px rgba(232, 213, 163, 0.08);
+  border-radius: 1.25rem;
+  padding: 2.5cqh 3cqw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.8cqh;
+  z-index: 2;
+  backdrop-filter: blur(16px);
+}
+
+.payment-amount-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2cqh;
+}
+
+.payment-amount-label {
+  font-size: 1.6cqw;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #a3977c;
+  font-weight: 600;
+}
+
+.payment-amount-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 6.5cqw;
+  font-weight: 700;
+  color: #e8d5a3;
+  text-shadow: 0 2px 10px rgba(232, 213, 163, 0.3);
+}
+
+.payment-qr-wrap {
+  width: 260px;
+  height: 260px;
+  background: #ffffff;
+  padding: 12px;
+  border-radius: 1rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.payment-qr-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.payment-instructions {
+  font-size: 2.1cqw;
+  color: #e2dac8;
+  max-width: 90%;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.payment-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1.1rem;
+  border-radius: 9999px;
+  font-size: 1.8cqw;
+  font-weight: 600;
+}
+
+.payment-status-pill.is-pending {
+  background: rgba(232, 213, 163, 0.15);
+  color: #e8d5a3;
+  border: 1px solid rgba(232, 213, 163, 0.3);
+}
+
+.payment-status-pill.is-success {
+  background: rgba(46, 204, 113, 0.2);
+  color: #2ecc71;
+  border: 1px solid rgba(46, 204, 113, 0.5);
+}
+
+.payment-status-pill.is-failed,
+.payment-status-pill.is-expired {
+  background: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+  border: 1px solid rgba(231, 76, 60, 0.4);
+}
+
+.payment-timer {
+  font-size: 1.7cqw;
+  color: #9e937d;
+}
+
+.payment-actions {
+  display: flex;
+  gap: 1.5cqw;
+  width: 100%;
+  justify-content: center;
+  margin-top: 0.5cqh;
+}
+
+.payment-btn {
+  padding: 1.2cqh 3cqw;
+  border-radius: 9999px;
+  font-size: 2.2cqw;
+  font-weight: 600;
+  border: 1px solid rgba(232, 213, 163, 0.3);
+  background: rgba(30, 26, 20, 0.8);
+  color: #f7f3eb;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.payment-btn:hover:not(:disabled) {
+  background: rgba(232, 213, 163, 0.2);
+  border-color: #e8d5a3;
+  transform: translateY(-1px);
+}
+
+.payment-btn.is-primary {
+  background: linear-gradient(135deg, #e8d5a3 0%, #c6a15b 100%);
+  color: #0b0a09;
+  border: none;
+  box-shadow: 0 4px 14px rgba(232, 213, 163, 0.3);
+}
+
+.payment-btn.is-primary:hover:not(:disabled) {
+  opacity: 0.95;
+  box-shadow: 0 6px 20px rgba(232, 213, 163, 0.45);
+}
+
+.payment-proto-tools {
+  margin-top: 1cqh;
+  padding: 1.2cqh 2.5cqw;
+  background: rgba(15, 13, 10, 0.85);
+  border: 1px dashed rgba(232, 213, 163, 0.4);
+  border-radius: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8cqh;
+  max-width: 520px;
+  width: 100%;
+  z-index: 2;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.payment-proto-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.payment-proto-badge {
+  font-size: 1.3cqw;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #f5b041;
+  font-weight: 700;
+  background: rgba(245, 176, 65, 0.15);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  border: 1px solid rgba(245, 176, 65, 0.3);
+}
+
+.payment-proto-title {
+  font-size: 1.4cqw;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #a3977c;
+  font-weight: 600;
+}
+
+.payment-proto-buttons {
+  display: flex;
+  gap: 0.8cqw;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+.payment-proto-btn {
+  padding: 0.6cqh 1.5cqw;
+  font-size: 1.6cqw;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: #e2dac8;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.payment-proto-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.payment-proto-btn.is-success-demo {
+  background: linear-gradient(135deg, rgba(46, 204, 113, 0.25) 0%, rgba(39, 174, 96, 0.35) 100%);
+  border-color: rgba(46, 204, 113, 0.6);
+  color: #2ecc71;
+  font-weight: 700;
+}
+
+.payment-proto-btn.is-success-demo:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(46, 204, 113, 0.4) 0%, rgba(39, 174, 96, 0.5) 100%);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+}
+
+.payment-proto-btn.is-fail-demo {
+  color: #e74c3c;
+  border-color: rgba(231, 76, 60, 0.4);
+}
+
+.payment-proto-btn.is-expire-demo {
+  color: #f39c12;
+  border-color: rgba(243, 156, 18, 0.4);
+}

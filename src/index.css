@@ -1,0 +1,61 @@
+:root {
+  color-scheme: dark;
+  --ink: #0b0a09;
+  --ink-soft: #161310;
+  --gold: #c6a15b;
+  --gold-bright: #e8d5a3;
+  --gold-dim: rgba(198, 161, 91, 0.28);
+  --cream: #f4ead7;
+  --cream-muted: rgba(244, 234, 215, 0.72);
+  --shadow: rgba(0, 0, 0, 0.45);
+  --danger: #d7b08a;
+  font-family: Outfit, system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--ink);
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  min-height: 100dvh;
+  min-height: 100svh;
+  user-select: none;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+button:focus-visible {
+  outline: 0.35cqw solid var(--gold-bright);
+  outline-offset: 0.5cqw;
+}

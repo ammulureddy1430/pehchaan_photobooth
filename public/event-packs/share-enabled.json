@@ -1,0 +1,47 @@
+{
+  "id": "pehchaan-share-demo",
+  "version": "1.0.0",
+  "eventName": "Pehchaan Share Demo",
+  "language": "en",
+  "shotCount": 1,
+  "betweenShotPauseMs": 0,
+  "mirrorOutput": true,
+  "blackAndWhiteEnabled": false,
+  "sepiaEnabled": false,
+  "whatsappEnabled": true,
+  "emailEnabled": true,
+  "cloudQrEnabled": true,
+  "printEnabled": true,
+  "composition": {
+    "id": "share-portrait",
+    "name": "Share portrait",
+    "width": 820,
+    "height": 1180,
+    "background": "#0b0a09",
+    "overlayEnabled": true,
+    "slots": [
+      {
+        "id": "slot-1",
+        "shotNumber": 1,
+        "x": 78,
+        "y": 86,
+        "width": 664,
+        "height": 742,
+        "fit": "cover",
+        "effect": "none"
+      }
+    ],
+    "texts": [
+      {
+        "id": "wordmark",
+        "text": "PEHCHAAN",
+        "x": 410,
+        "y": 920,
+        "font": "600 54px \"Cormorant Garamond\", serif",
+        "color": "#e8d5a3",
+        "align": "center",
+        "baseline": "middle"
+      }
+    ]
+  }
+}

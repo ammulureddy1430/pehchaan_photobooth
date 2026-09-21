@@ -1,0 +1,83 @@
+.staff-pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6cqh 7cqw 4cqh;
+  background: linear-gradient(180deg, #1c1712 0%, var(--ink) 55%);
+}
+
+.staff-kicker {
+  margin: 2cqh 0 0;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  font-size: 2.2cqw;
+  color: var(--gold-bright);
+}
+
+.staff-title {
+  margin: 1.2cqh 0 2.4cqh;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9cqw;
+  font-weight: 600;
+  color: var(--cream);
+}
+
+.pin-dots {
+  display: flex;
+  gap: 2.2cqw;
+  margin-bottom: 2cqh;
+}
+
+.pin-dot {
+  width: 2.4cqw;
+  height: 2.4cqw;
+  border-radius: 50%;
+  border: 0.18cqw solid var(--gold-dim);
+}
+
+.pin-dot.is-on {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+.pin-error {
+  min-height: 4.4cqh;
+  margin: 0 0 1.6cqh;
+  max-width: 72cqw;
+  text-align: center;
+  color: var(--danger);
+  font-size: 2.7cqw;
+  line-height: 1.35;
+}
+
+.pin-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4cqh 2cqw;
+  width: 72cqw;
+}
+
+.pin-key {
+  min-height: 7.4cqh;
+  border: 0.16cqw solid var(--gold-dim);
+  border-radius: 1.2cqw;
+  background: rgba(11, 10, 9, 0.4);
+  color: var(--cream);
+  font-size: 3.6cqw;
+  letter-spacing: 0.08em;
+}
+
+.pin-key.is-enter {
+  color: var(--gold-bright);
+}
+
+.pin-key:active:not(:disabled) {
+  transform: scale(0.98);
+  background: rgba(198, 161, 91, 0.16);
+}
+
+.pin-exit {
+  width: 72cqw;
+  margin-top: auto;
+  min-height: 7.4cqh;
+}

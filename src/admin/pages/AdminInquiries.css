@@ -1,0 +1,570 @@
+/* Admin Inquiries & Leads Dedicated Stylesheet - Clean, Simple & Intuitive */
+
+.inquiries-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Metric Cards Grid */
+.inquiries-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1024px) {
+  .inquiries-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .inquiries-stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.inquiry-stat-card {
+  background: var(--adm-surface, #131722);
+  border: 1px solid var(--adm-border, rgba(255, 255, 255, 0.07));
+  border-radius: var(--adm-radius-lg, 14px);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+  user-select: none;
+}
+
+.inquiry-stat-card:hover {
+  border-color: var(--adm-border-hover, rgba(212, 175, 55, 0.3));
+  transform: translateY(-1px);
+}
+
+.inquiry-stat-card.active-filter {
+  background: var(--adm-surface-hover, #191f2e);
+  border-color: var(--adm-gold, #c6a15b);
+  box-shadow: 0 0 16px var(--adm-gold-glow, rgba(198, 161, 91, 0.15));
+}
+
+.inquiry-stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--adm-border, rgba(255, 255, 255, 0.15));
+}
+
+.inquiry-stat-card.total::before { background: var(--adm-gold, #c6a15b); }
+.inquiry-stat-card.new::before { background: #38bdf8; }
+.inquiry-stat-card.contacted::before { background: #f59e0b; }
+.inquiry-stat-card.confirmed::before { background: #10b981; }
+
+.inquiry-stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--adm-text-secondary, #94a3b8);
+}
+
+.inquiry-stat-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--adm-text-primary, #f8fafc);
+  line-height: 1.1;
+}
+
+.inquiry-stat-card.new .inquiry-stat-value { color: #38bdf8; }
+.inquiry-stat-card.contacted .inquiry-stat-value { color: #f59e0b; }
+.inquiry-stat-card.confirmed .inquiry-stat-value { color: #10b981; }
+
+.inquiry-stat-sub {
+  font-size: 12px;
+  color: var(--adm-text-muted, #64748b);
+}
+
+/* Unified Filter & Toolbar Bar */
+.inquiries-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  background: var(--adm-surface, #131722);
+  border: 1px solid var(--adm-border, rgba(255, 255, 255, 0.07));
+  border-radius: var(--adm-radius-lg, 14px);
+  padding: 12px 16px;
+}
+
+.inquiries-filter-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.inquiry-filter-pill {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--adm-border, rgba(255, 255, 255, 0.08));
+  color: var(--adm-text-secondary, #94a3b8);
+  padding: 6px 13px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.inquiry-filter-pill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--adm-text-primary, #f8fafc);
+}
+
+.inquiry-filter-pill.active {
+  background: var(--adm-gold-dim, rgba(198, 161, 91, 0.15));
+  border-color: var(--adm-gold, #c6a15b);
+  color: var(--adm-gold-light, #e8d5a3);
+  font-weight: 600;
+}
+
+.inquiry-filter-count {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1px 7px;
+  border-radius: 10px;
+  font-size: 11px;
+}
+
+.inquiry-filter-pill.active .inquiry-filter-count {
+  background: rgba(198, 161, 91, 0.25);
+  color: #ffffff;
+}
+
+/* Toolbar Right Side Actions */
+.inquiries-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.inquiry-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inquiry-search-icon {
+  position: absolute;
+  left: 11px;
+  color: var(--adm-text-muted, #64748b);
+  pointer-events: none;
+}
+
+.inquiry-search-input {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--adm-border, rgba(255, 255, 255, 0.1));
+  border-radius: 8px;
+  padding: 8px 12px 8px 32px;
+  font-size: 13px;
+  color: var(--adm-text-primary, #f8fafc);
+  outline: none;
+  width: 210px;
+  transition: border-color 0.15s ease, width 0.15s ease;
+}
+
+.inquiry-search-input:focus {
+  border-color: var(--adm-gold, #c6a15b);
+  width: 250px;
+}
+
+.inquiry-btn-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--adm-border, rgba(255, 255, 255, 0.1));
+  color: var(--adm-text-primary, #f8fafc);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.inquiry-btn-sm:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--adm-border-hover, rgba(212, 175, 55, 0.3));
+}
+
+.inquiry-btn-primary {
+  background: linear-gradient(135deg, #c6a15b, #b38e46);
+  border: 1px solid #c6a15b;
+  color: #090b10;
+  font-weight: 600;
+}
+
+.inquiry-btn-primary:hover {
+  background: linear-gradient(135deg, #d4af37, #c6a15b);
+  color: #000000;
+  box-shadow: 0 0 14px rgba(198, 161, 91, 0.35);
+}
+
+/* Leads Table Card */
+.inquiries-table-card {
+  background: var(--adm-surface, #131722);
+  border: 1px solid var(--adm-border, rgba(255, 255, 255, 0.07));
+  border-radius: var(--adm-radius-lg, 14px);
+  overflow: hidden;
+}
+
+.inquiries-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.inquiries-table th {
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--adm-text-secondary, #94a3b8);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--adm-border, rgba(255, 255, 255, 0.07));
+}
+
+.inquiries-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--adm-border, rgba(255, 255, 255, 0.05));
+  font-size: 14px;
+  color: var(--adm-text-primary, #f8fafc);
+  vertical-align: middle;
+}
+
+.inquiries-table tr {
+  transition: background-color 0.15s ease;
+}
+
+.inquiries-table tr:hover {
+  background-color: var(--adm-surface-hover, #191f2e);
+}
+
+.inquiries-table tr.selected {
+  background-color: rgba(198, 161, 91, 0.08);
+}
+
+/* Table Elements */
+.inquiry-org-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--adm-text-primary, #f8fafc);
+  margin-bottom: 3px;
+}
+
+.inquiry-contact-line {
+  font-size: 12px;
+  color: var(--adm-text-secondary, #94a3b8);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.inquiry-tag-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--adm-text-secondary, #94a3b8);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Interactive Status Selector Pill */
+.inquiry-status-select {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.inquiry-status-select.new {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.inquiry-status-select.contacted {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.inquiry-status-select.quoted {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border-color: rgba(168, 85, 247, 0.4);
+}
+
+.inquiry-status-select.confirmed {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.inquiry-status-select.archived {
+  background: rgba(148, 163, 184, 0.15);
+  color: #94a3b8;
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+.inquiry-status-select option {
+  background: #131722;
+  color: #f8fafc;
+}
+
+/* Action Buttons in Table */
+.inquiry-action-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.inquiry-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(37, 211, 102, 0.12);
+  border: 1px solid rgba(37, 211, 102, 0.3);
+  color: #25d366;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.inquiry-wa-btn:hover {
+  background: #25d366;
+  color: #090b10;
+  box-shadow: 0 0 10px rgba(37, 211, 102, 0.3);
+}
+
+.inquiry-convert-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(198, 161, 91, 0.15);
+  border: 1px solid rgba(198, 161, 91, 0.35);
+  color: var(--adm-gold-light, #e8d5a3);
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.inquiry-convert-btn:hover {
+  background: var(--adm-gold, #c6a15b);
+  color: #090b10;
+}
+
+.inquiry-view-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--adm-border, rgba(255, 255, 255, 0.08));
+  color: var(--adm-text-primary, #f8fafc);
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.inquiry-view-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--adm-border-hover, rgba(212, 175, 55, 0.3));
+}
+
+/* Detail Drawer Panel */
+.inquiry-drawer {
+  background: var(--adm-surface, #131722);
+  border: 1px solid var(--adm-border-hover, rgba(212, 175, 55, 0.3));
+  border-radius: var(--adm-radius-lg, 14px);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+}
+
+.inquiry-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--adm-border, rgba(255, 255, 255, 0.07));
+  padding-bottom: 14px;
+}
+
+.inquiry-drawer-ref {
+  font-size: 11px;
+  font-family: monospace;
+  color: var(--adm-gold, #c6a15b);
+}
+
+.inquiry-drawer-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--adm-text-primary, #f8fafc);
+  margin: 3px 0 0;
+}
+
+.inquiry-drawer-close {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--adm-border, rgba(255, 255, 255, 0.1));
+  color: var(--adm-text-secondary, #94a3b8);
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.inquiry-drawer-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+/* Section info block */
+.inquiry-info-grid {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--adm-border, rgba(255, 255, 255, 0.05));
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.inquiry-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inquiry-info-label {
+  color: var(--adm-text-secondary, #94a3b8);
+}
+
+.inquiry-info-val {
+  font-weight: 600;
+  color: var(--adm-text-primary, #f8fafc);
+}
+
+.inquiry-text-block {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--adm-border, rgba(255, 255, 255, 0.05));
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--adm-text-primary, #f8fafc);
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+/* Quick Note Presets */
+.inquiry-note-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.inquiry-note-chip {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--adm-border, rgba(255, 255, 255, 0.08));
+  color: var(--adm-text-secondary, #94a3b8);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.inquiry-note-chip:hover {
+  background: rgba(198, 161, 91, 0.15);
+  color: var(--adm-gold-light, #e8d5a3);
+  border-color: var(--adm-gold, #c6a15b);
+}
+
+.inquiry-notes-textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--adm-border, rgba(255, 255, 255, 0.1));
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: var(--adm-text-primary, #f8fafc);
+  outline: none;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.inquiry-notes-textarea:focus {
+  border-color: var(--adm-gold, #c6a15b);
+}
+
+/* Manual Add Lead Modal */
+.inquiry-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.inquiry-modal-card {
+  background: var(--adm-surface, #131722);
+  border: 1px solid var(--adm-border-hover, rgba(212, 175, 55, 0.3));
+  border-radius: var(--adm-radius-xl, 18px);
+  max-width: 560px;
+  width: 100%;
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 90vh;
+  overflow-y: auto;
+}

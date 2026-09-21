@@ -1,0 +1,199 @@
+.attract {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14cqh 8cqw 10cqh;
+  background:
+    radial-gradient(90% 55% at 50% 18%, rgba(198, 161, 91, 0.16), transparent 64%),
+    linear-gradient(180deg, #1c1712 0%, var(--ink) 46%, #120f0c 100%);
+}
+
+.attract-glow {
+  pointer-events: none;
+  position: absolute;
+  inset: auto 10cqw 22cqh;
+  height: 28cqh;
+  background: radial-gradient(closest-side, rgba(198, 161, 91, 0.18), transparent 72%);
+  filter: blur(8px);
+}
+
+.attract-frame {
+  inset: 3.2cqh 3.4cqw 3.2cqh;
+}
+
+.attract-copy {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  color: var(--cream);
+  padding-top: 6cqh;
+}
+
+.attract-school-logo {
+  max-width: 24cqw;
+  max-height: 12cqh;
+  object-fit: contain;
+  margin-bottom: 2cqh;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.45));
+}
+
+.attract-kicker {
+  margin: 0 0 2.4cqh;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  font-size: 2.4cqw;
+  font-weight: 500;
+  color: var(--gold-bright);
+}
+
+.attract-mark {
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16.4cqw;
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: 0.04em;
+}
+
+.attract-sub {
+  margin: 1.8cqh 0 0;
+  letter-spacing: 0.52em;
+  text-transform: uppercase;
+  font-size: 3.1cqw;
+  font-weight: 500;
+  color: var(--gold);
+}
+
+.attract-rule {
+  width: 18cqw;
+  height: 0.16cqw;
+  margin: 4.2cqh 0 3cqh;
+  background: var(--gold);
+}
+
+.attract-line {
+  margin: 0;
+  max-width: 54cqw;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 4.6cqw;
+  line-height: 1.35;
+  color: var(--cream-muted);
+}
+
+.attract-paused-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5cqh;
+  margin-top: 1cqh;
+  padding: 3cqh 4cqw;
+  border-radius: 1cqw;
+  background: rgba(198, 161, 91, 0.08);
+  border: 1px solid rgba(198, 161, 91, 0.25);
+  max-width: 60cqw;
+}
+
+.attract-paused-title {
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 6.5cqw;
+  color: var(--gold-bright);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.attract-privacy-notice {
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
+  margin-top: 2cqh;
+  padding: 1.2cqh 2.8cqw;
+  border-radius: 999px;
+  background: rgba(198, 161, 91, 0.08);
+  border: 1px solid rgba(198, 161, 91, 0.22);
+  color: var(--cream-muted);
+  font-size: 2.2cqw;
+  letter-spacing: 0.06em;
+  max-width: 66cqw;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+.privacy-shield-icon {
+  font-size: 2.6cqw;
+  color: var(--gold-bright);
+}
+
+.attract-actions {
+  position: relative;
+  display: grid;
+  gap: 2.2cqh;
+  justify-items: center;
+  width: 72cqw;
+}
+
+.attract-modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.6cqw;
+  width: 100%;
+}
+
+.mode-btn {
+  min-height: 6.6cqh;
+  padding: 0 2cqw;
+  border: 0.16cqw solid var(--gold-dim);
+  border-radius: 999px;
+  background: rgba(11, 10, 9, 0.35);
+  color: var(--cream-muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 2.6cqw;
+  font-weight: 500;
+}
+
+.mode-btn.is-on {
+  border-color: var(--gold);
+  background: rgba(198, 161, 91, 0.16);
+  color: var(--cream);
+}
+
+.mode-btn:active {
+  transform: scale(0.98);
+}
+
+.attract-start {
+  width: 100%;
+  min-height: 10.4cqh;
+  font-size: 3.8cqw;
+}
+
+.attract-staff {
+  position: absolute;
+  top: 4.4cqh;
+  right: 5.4cqw;
+  z-index: 32;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18cqw;
+  min-height: 5.6cqh;
+  padding: 0 3.2cqw;
+  border: 0.16cqw solid var(--gold);
+  border-radius: 999px;
+  background: rgba(11, 10, 9, 0.55);
+  color: var(--cream);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-size: 2.2cqw;
+  font-weight: 500;
+  backdrop-filter: blur(12px);
+}
+
+.attract-staff:active {
+  transform: scale(0.98);
+  background: rgba(198, 161, 91, 0.18);
+}

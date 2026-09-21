@@ -1,0 +1,77 @@
+{
+  "id": "pehchaan-fallback",
+  "version": "1.0.0",
+  "eventName": "Pehchaan Photobooth",
+  "language": "en",
+  "shotCount": 3,
+  "betweenShotPauseMs": 0,
+  "mirrorOutput": true,
+  "blackAndWhiteEnabled": true,
+  "sepiaEnabled": true,
+  "whatsappEnabled": false,
+  "emailEnabled": false,
+  "cloudQrEnabled": false,
+  "printEnabled": false,
+  "composition": {
+    "id": "fallback-strip",
+    "name": "Pehchaan portrait strip",
+    "width": 820,
+    "height": 1180,
+    "background": "#0b0a09",
+    "overlayEnabled": true,
+    "slots": [
+      {
+        "id": "slot-1",
+        "shotNumber": 1,
+        "x": 78,
+        "y": 86,
+        "width": 664,
+        "height": 238,
+        "fit": "cover",
+        "effect": "none"
+      },
+      {
+        "id": "slot-2",
+        "shotNumber": 2,
+        "x": 78,
+        "y": 338,
+        "width": 664,
+        "height": 238,
+        "fit": "cover",
+        "effect": "sepia"
+      },
+      {
+        "id": "slot-3",
+        "shotNumber": 3,
+        "x": 78,
+        "y": 590,
+        "width": 664,
+        "height": 238,
+        "fit": "cover",
+        "effect": "black-and-white"
+      }
+    ],
+    "texts": [
+      {
+        "id": "wordmark",
+        "text": "PEHCHAAN",
+        "x": 410,
+        "y": 920,
+        "font": "600 54px \"Cormorant Garamond\", serif",
+        "color": "#e8d5a3",
+        "align": "center",
+        "baseline": "middle"
+      },
+      {
+        "id": "sub",
+        "text": "PHOTOBOOTH",
+        "x": 410,
+        "y": 972,
+        "font": "500 18px Outfit, system-ui, sans-serif",
+        "color": "#c6a15b",
+        "align": "center",
+        "baseline": "middle"
+      }
+    ]
+  }
+}

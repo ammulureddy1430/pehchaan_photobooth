@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/PehchaanPhotoboothPackageTests.build/master.swiftdeps"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/PehchaanPhotoboothPackageTests.derived/runner.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/PehchaanPhotoboothPackageTests.build/runner.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/PehchaanPhotoboothPackageTests.build/runner.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/PehchaanPhotoboothPackageTests.build/runner~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/PehchaanPhotoboothPackageTests.build/runner.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/PehchaanPhotoboothPackageTests.build/runner.dia"
+  }
+}

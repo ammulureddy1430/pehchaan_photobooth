@@ -1,0 +1,119 @@
+.consent-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8cqh 8cqw;
+  background:
+    radial-gradient(90% 55% at 50% 18%, rgba(198, 161, 91, 0.16), transparent 64%),
+    linear-gradient(180deg, #1c1712 0%, var(--ink) 46%, #120f0c 100%);
+}
+
+.consent-frame {
+  inset: 3.2cqh 3.4cqw 3.2cqh;
+}
+
+.consent-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: var(--cream);
+  max-width: 72cqw;
+  width: 100%;
+  z-index: 10;
+}
+
+.consent-kicker {
+  margin: 0 0 1.2cqh;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: 2.2cqw;
+  font-weight: 500;
+  color: var(--gold-bright);
+}
+
+.consent-title {
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 7.2cqw;
+  font-weight: 600;
+  line-height: 1.05;
+  color: var(--gold-bright);
+  letter-spacing: 0.02em;
+}
+
+.consent-sub {
+  margin: 1.2cqh 0 0;
+  font-size: 2.4cqw;
+  color: var(--cream-muted);
+  line-height: 1.3;
+}
+
+.consent-rule {
+  width: 22cqw;
+  height: 0.16cqw;
+  margin: 2.4cqh 0 2cqh;
+  background: var(--gold);
+}
+
+.consent-points {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 3cqh;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4cqh;
+  text-align: left;
+  width: 100%;
+  background: rgba(198, 161, 91, 0.06);
+  border: 1px solid rgba(198, 161, 91, 0.22);
+  border-radius: 1.2cqw;
+  padding: 2.2cqh 3.2cqw;
+}
+
+.consent-point {
+  font-size: 2.3cqw;
+  line-height: 1.45;
+  color: var(--cream);
+}
+
+.consent-share-optin {
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
+  margin-bottom: 2.6cqh;
+  padding: 1.2cqh 2.4cqw;
+  border-radius: 999px;
+  background: rgba(198, 161, 91, 0.1);
+  border: 1px solid rgba(198, 161, 91, 0.3);
+  font-size: 2cqw;
+  color: var(--cream);
+  cursor: pointer;
+  text-align: left;
+}
+
+.consent-share-optin input[type='checkbox'] {
+  width: 2.4cqw;
+  height: 2.4cqw;
+  accent-color: var(--gold);
+  cursor: pointer;
+}
+
+.consent-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2cqw;
+  width: 100%;
+}
+
+.consent-btn-agree {
+  min-height: 8cqh;
+  font-size: 3.2cqw;
+}
+
+.consent-btn-cancel {
+  min-height: 8cqh;
+  font-size: 2.8cqw;
+}

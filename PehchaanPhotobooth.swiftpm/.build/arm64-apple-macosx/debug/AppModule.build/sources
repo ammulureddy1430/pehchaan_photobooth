@@ -1,0 +1,17 @@
+/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Managers/CameraManager.swift
+/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Managers/EventPackManager.swift
+/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Managers/NetworkMonitor.swift
+/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Managers/OutboxManager.swift
+/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Managers/PhotoLibraryManager.swift
+/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Managers/PrintManager.swift
+/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Models/EventPack.swift
+/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Models/PaymentConfiguration.swift
+/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/PehchaanPhotoboothApp.swift
+/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Views/AttractView.swift
+/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Views/CaptureView.swift
+/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Views/CompositionView.swift
+/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Views/ConsentView.swift
+/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Views/ContentView.swift
+/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Views/DeliveryView.swift
+/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Views/PaymentView.swift
+/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Views/StaffView.swift

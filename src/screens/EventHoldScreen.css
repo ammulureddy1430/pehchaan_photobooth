@@ -1,0 +1,45 @@
+.hold {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14cqh 8cqw;
+  background:
+    radial-gradient(90% 55% at 50% 18%, rgba(198, 161, 91, 0.16), transparent 64%),
+    linear-gradient(180deg, #1c1712 0%, var(--ink) 46%, #120f0c 100%);
+}
+
+.hold-copy {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  color: var(--cream);
+}
+
+.hold-staff {
+  position: absolute;
+  top: 4.4cqh;
+  right: 5.4cqw;
+  z-index: 32;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18cqw;
+  min-height: 5.6cqh;
+  padding: 0 3.2cqw;
+  border: 0.16cqw solid var(--gold);
+  border-radius: 999px;
+  background: rgba(11, 10, 9, 0.55);
+  color: var(--cream);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-size: 2.2cqw;
+  font-weight: 500;
+  backdrop-filter: blur(12px);
+}
+
+.hold-staff:active {
+  transform: scale(0.98);
+  background: rgba(198, 161, 91, 0.18);
+}

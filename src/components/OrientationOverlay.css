@@ -1,0 +1,105 @@
+.orientation-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(11, 10, 9, 0.96);
+  backdrop-filter: blur(24px);
+  padding: 4cqh 6cqw;
+  text-align: center;
+  animation: orientationFadeIn 200ms ease-out forwards;
+}
+
+@keyframes orientationFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.orientation-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 480px;
+  width: 90%;
+  padding: 3.5rem 2rem;
+  border: 1px solid var(--gold-dim);
+  background: rgba(18, 16, 14, 0.85);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+  position: relative;
+}
+
+.orientation-icon-box {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  background: rgba(198, 161, 91, 0.08);
+  box-shadow: 0 0 24px rgba(198, 161, 91, 0.2);
+  animation: rotatePulse 2.4s ease-in-out infinite;
+}
+
+@keyframes rotatePulse {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(90deg) scale(1.05);
+  }
+}
+
+.orientation-icon {
+  width: 36px;
+  height: 36px;
+  color: var(--gold-bright);
+}
+
+.orientation-title {
+  margin: 0 0 0.75rem 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--cream);
+  letter-spacing: 0.02em;
+}
+
+.orientation-sub {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--cream-muted);
+  max-width: 320px;
+}
+
+.orientation-staff {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: transparent;
+  border: 1px solid rgba(198, 161, 91, 0.3);
+  color: var(--gold-dim);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.orientation-staff:hover {
+  border-color: var(--gold);
+  color: var(--gold-bright);
+}

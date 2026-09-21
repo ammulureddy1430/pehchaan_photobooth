@@ -1,0 +1,124 @@
+{
+  "": {
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/master.swiftdeps"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Managers/CameraManager.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/CameraManager.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/CameraManager.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/CameraManager~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/CameraManager.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/CameraManager.dia"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Managers/EventPackManager.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/EventPackManager.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/EventPackManager.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/EventPackManager~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/EventPackManager.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/EventPackManager.dia"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Managers/NetworkMonitor.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/NetworkMonitor.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/NetworkMonitor.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/NetworkMonitor~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/NetworkMonitor.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/NetworkMonitor.dia"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Managers/OutboxManager.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/OutboxManager.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/OutboxManager.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/OutboxManager~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/OutboxManager.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/OutboxManager.dia"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Managers/PhotoLibraryManager.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PhotoLibraryManager.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PhotoLibraryManager.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PhotoLibraryManager~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PhotoLibraryManager.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PhotoLibraryManager.dia"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Managers/PrintManager.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PrintManager.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PrintManager.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PrintManager~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PrintManager.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PrintManager.dia"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Models/EventPack.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/EventPack.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/EventPack.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/EventPack~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/EventPack.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/EventPack.dia"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Models/PaymentConfiguration.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PaymentConfiguration.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PaymentConfiguration.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PaymentConfiguration~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PaymentConfiguration.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PaymentConfiguration.dia"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/PehchaanPhotoboothApp.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PehchaanPhotoboothApp.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PehchaanPhotoboothApp.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PehchaanPhotoboothApp~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PehchaanPhotoboothApp.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PehchaanPhotoboothApp.dia"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Views/AttractView.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/AttractView.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/AttractView.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/AttractView~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/AttractView.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/AttractView.dia"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Views/CaptureView.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/CaptureView.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/CaptureView.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/CaptureView~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/CaptureView.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/CaptureView.dia"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Views/CompositionView.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/CompositionView.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/CompositionView.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/CompositionView~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/CompositionView.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/CompositionView.dia"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Views/ConsentView.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/ConsentView.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/ConsentView.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/ConsentView~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/ConsentView.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/ConsentView.dia"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Views/ContentView.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/ContentView.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/ContentView.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/ContentView~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/ContentView.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/ContentView.dia"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Views/DeliveryView.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/DeliveryView.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/DeliveryView.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/DeliveryView~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/DeliveryView.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/DeliveryView.dia"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Views/PaymentView.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PaymentView.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PaymentView.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PaymentView~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PaymentView.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/PaymentView.dia"
+  },
+  "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/Sources/Views/StaffView.swift": {
+    "dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/StaffView.d",
+    "object": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/StaffView.swift.o",
+    "swiftmodule": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/StaffView~partial.swiftmodule",
+    "swift-dependencies": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/StaffView.swiftdeps",
+    "diagnostics": "/Users/ammulureddy143/Documents/PehchaanPhotobooth/PehchaanPhotobooth.swiftpm/.build/arm64-apple-macosx/debug/AppModule.build/StaffView.dia"
+  }
+}
