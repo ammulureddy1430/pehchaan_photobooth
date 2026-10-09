@@ -10,6 +10,7 @@ export interface DeviceRecord {
   lastSeen: number
   lastHeartbeat: number | null
   revokedAt: number | null
+  activeEventId: string | null
   metadata: Record<string, unknown> | null
 }
 

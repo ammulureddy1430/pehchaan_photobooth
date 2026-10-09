@@ -26,6 +26,8 @@ export type ErrorCode =
   | 'CONFIG_INCOMPLETE'
   | 'EVENT_PACK_INVALID'
   | 'INVALID_ACTIVATION_TOKEN'
+  | 'PAYMENT_NOT_REQUIRED'
+  | 'INVALID_AMOUNT'
 
 export class AppError extends Error {
   public readonly statusCode: number

@@ -246,6 +246,15 @@ export class EventRepository {
     }
   }
 
+  recordDeviceDeactivation(deviceId: string): void {
+    const now = Date.now()
+    try {
+      this.db.prepare('UPDATE devices SET active_event_id = NULL, last_seen = ? WHERE device_id = ?').run(now, deviceId)
+    } catch {
+      // Best effort update
+    }
+  }
+
   getActiveDeviceCount(eventId: string): number {
     try {
       const row = this.db.prepare(`

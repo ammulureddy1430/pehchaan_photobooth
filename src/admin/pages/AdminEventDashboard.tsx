@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { adminGetEventDashboard } from '../services/adminApi'
+import {
+  adminGetEventDashboard,
+  adminGetEvents,
+  adminGetDevices,
+  adminAssignDeviceEvent,
+  adminUnassignDeviceEvent,
+} from '../services/adminApi'
 import { generateQrSvg } from '../../delivery/qrGenerator'
 import {
   IconArrowLeft,
@@ -17,7 +23,8 @@ import {
   IconChartBar,
   IconEye,
 } from '../components/AdminIcons'
-import type { EventDashboardData, DashboardPhotoItem, DashboardSessionItem } from '../types'
+import type { EventDashboardData, DashboardPhotoItem, DashboardSessionItem, AdminEvent } from '../types'
+import type { ApiDeviceInfo } from '../../api/types'
 
 interface AdminEventDashboardProps {
   eventId: string
@@ -45,6 +52,15 @@ export const AdminEventDashboard: React.FC<AdminEventDashboardProps> = ({
   const [previewPhoto, setPreviewPhoto] = useState<DashboardPhotoItem | null>(null)
   const [sessionSearch, setSessionSearch] = useState('')
 
+  // Device fleet & Event assignment state
+  const [allEvents, setAllEvents] = useState<AdminEvent[]>([])
+  const [allDevices, setAllDevices] = useState<ApiDeviceInfo[]>([])
+  const [selectedEventMap, setSelectedEventMap] = useState<Record<string, string>>({})
+  const [assigningDeviceId, setAssigningDeviceId] = useState<string | null>(null)
+  const [unassigningDeviceId, setUnassigningDeviceId] = useState<string | null>(null)
+  const [actionFeedback, setActionFeedback] = useState<{ deviceId: string; type: 'success' | 'error'; message: string } | null>(null)
+  const [fleetLoading, setFleetLoading] = useState(false)
+
   // Scroll to top on mount and tab switch
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' })
@@ -65,9 +81,73 @@ export const AdminEventDashboard: React.FC<AdminEventDashboardProps> = ({
     }
   }, [eventId])
 
+  const loadFleetAndEvents = useCallback(async () => {
+    setFleetLoading(true)
+    try {
+      const [eventsRes, devicesRes] = await Promise.all([
+        adminGetEvents().catch(() => ({ events: [] })),
+        adminGetDevices().catch(() => ({ success: true, devices: [] })),
+      ])
+      setAllEvents(eventsRes.events || [])
+      setAllDevices(devicesRes.devices || [])
+    } catch {
+      // Ignore background errors
+    } finally {
+      setFleetLoading(false)
+    }
+  }, [])
+
   useEffect(() => {
     void fetchDashboard()
-  }, [fetchDashboard])
+    void loadFleetAndEvents()
+  }, [fetchDashboard, loadFleetAndEvents])
+
+  const handleAssign = async (deviceId: string, targetEventId: string) => {
+    if (!targetEventId) return
+    setAssigningDeviceId(deviceId)
+    setActionFeedback(null)
+    try {
+      await adminAssignDeviceEvent(deviceId, targetEventId)
+      const targetEv = allEvents.find((e) => e.eventId === targetEventId)
+      const targetName = targetEv ? targetEv.name : targetEventId
+      setActionFeedback({
+        deviceId,
+        type: 'success',
+        message: `Successfully assigned to event "${targetName}" (${targetEventId})!`,
+      })
+      await Promise.all([fetchDashboard(), loadFleetAndEvents()])
+    } catch (err: any) {
+      setActionFeedback({
+        deviceId,
+        type: 'error',
+        message: err.message || 'Failed to assign event to device.',
+      })
+    } finally {
+      setAssigningDeviceId(null)
+    }
+  }
+
+  const handleUnassign = async (deviceId: string) => {
+    setUnassigningDeviceId(deviceId)
+    setActionFeedback(null)
+    try {
+      await adminUnassignDeviceEvent(deviceId)
+      setActionFeedback({
+        deviceId,
+        type: 'success',
+        message: 'Successfully unassigned event from photobooth device.',
+      })
+      await Promise.all([fetchDashboard(), loadFleetAndEvents()])
+    } catch (err: any) {
+      setActionFeedback({
+        deviceId,
+        type: 'error',
+        message: err.message || 'Failed to unassign event from device.',
+      })
+    } finally {
+      setUnassigningDeviceId(null)
+    }
+  }
 
   const copyEventId = () => {
     if (!data?.event.eventId) return
@@ -438,7 +518,7 @@ export const AdminEventDashboard: React.FC<AdminEventDashboardProps> = ({
           onClick={() => setActiveTab('booths')}
         >
           <IconSmartphone size={15} />
-          <span>Connected Booths & Hardware ({devices.length})</span>
+          <span>Connected Booths & Hardware ({allDevices.length > 0 ? allDevices.length : devices.length})</span>
         </button>
       </div>
 
@@ -994,64 +1074,328 @@ export const AdminEventDashboard: React.FC<AdminEventDashboardProps> = ({
       )}
 
       {/* TAB 4: CONNECTED BOOTHS & HARDWARE */}
-      {activeTab === 'booths' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          <div className="admin-section-card">
-            <div className="admin-section-header">
-              <div className="admin-section-title-group">
-                <h2>Connected Booth Kiosks ({devices.length})</h2>
-                <p>Hardware status, battery, and network heartbeat of all paired iPads.</p>
-              </div>
-            </div>
+      {activeTab === 'booths' && (() => {
+        const displayDevices: (ApiDeviceInfo & { isOnline?: boolean })[] = allDevices.length > 0
+          ? allDevices.map((d) => {
+              const lastSeen = Number(d.lastHeartbeat || d.lastSeen || d.registeredAt)
+              const isOnline = d.status === 'active' && Date.now() - lastSeen < 15 * 60 * 1000
+              return { ...d, isOnline }
+            })
+          : devices.map((d) => ({
+              deviceId: d.deviceId,
+              deviceName: d.deviceName,
+              platform: d.platform,
+              appVersion: d.appVersion,
+              status: d.status,
+              registeredAt: d.registeredAt,
+              lastSeen: d.lastSeen,
+              lastHeartbeat: d.lastHeartbeat,
+              revokedAt: null,
+              activeEventId: d.activeEventId || eventId,
+              metadata: null,
+              isOnline: d.isOnline,
+            }))
 
-            {devices.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '2.5rem 1rem', color: 'var(--adm-text-muted)' }}>
-                <IconSmartphone size={32} style={{ opacity: 0.35, marginBottom: '0.5rem' }} />
-                <p style={{ margin: 0, fontSize: '0.9rem' }}>No kiosk devices registered for this event yet.</p>
-                <button
-                  type="button"
-                  className="admin-btn admin-btn-primary"
-                  style={{ marginTop: '0.75rem', padding: '0.35rem 0.85rem', fontSize: '0.82rem' }}
-                  onClick={() => setShowQrModal(true)}
-                >
-                  <IconQrCode size={14} />
-                  <span>Scan Activation QR on iPad</span>
-                </button>
-              </div>
-            ) : (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
-                {devices.map((d) => (
-                  <div
-                    key={d.deviceId}
-                    style={{
-                      padding: '1.15rem',
-                      background: 'rgba(0,0,0,0.25)',
-                      borderRadius: 'var(--adm-radius-md)',
-                      border: '1px solid var(--adm-border)',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '0.65rem',
-                    }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--adm-text-primary)' }}>
-                        📱 {d.deviceName}
-                      </span>
-                      <span className="admin-badge admin-badge-live">● Online</span>
-                    </div>
+        const assignedToThisCount = displayDevices.filter((d) => d.activeEventId === event.eventId).length
+        const unassignedCount = displayDevices.filter((d) => !d.activeEventId).length
 
-                    <div style={{ fontSize: '0.78rem', color: 'var(--adm-text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                      <div><strong>Device ID:</strong> <code style={{ color: 'var(--adm-gold)' }}>{d.deviceId}</code></div>
-                      <div><strong>Platform:</strong> {d.platform} (App v{d.appVersion})</div>
-                      <div><strong>Last Heartbeat:</strong> {formatDateTime(d.lastHeartbeat || d.lastSeen)}</div>
-                    </div>
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <div className="admin-section-card">
+              <div className="admin-section-header" style={{ flexWrap: 'wrap', gap: '0.75rem' }}>
+                <div className="admin-section-title-group">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                    <h2 style={{ margin: 0 }}>Connected Booths & Hardware ({displayDevices.length})</h2>
+                    {fleetLoading && <span style={{ fontSize: '0.75rem', color: 'var(--adm-text-secondary)' }}>🔄 Refreshing...</span>}
                   </div>
-                ))}
+                  <p>Assign events to registered iPad kiosks, monitor online status, and manage photobooth hardware pairing.</p>
+                </div>
+
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                  <button
+                    type="button"
+                    className="admin-btn admin-btn-secondary"
+                    style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem' }}
+                    onClick={() => {
+                      void loadFleetAndEvents()
+                      void fetchDashboard()
+                    }}
+                    title="Refresh device statuses"
+                  >
+                    🔄 Refresh Fleet
+                  </button>
+                  <button
+                    type="button"
+                    className="admin-btn admin-btn-primary"
+                    style={{ padding: '0.35rem 0.85rem', fontSize: '0.8rem' }}
+                    onClick={() => setShowQrModal(true)}
+                  >
+                    <IconQrCode size={14} />
+                    <span>Pair New iPad QR</span>
+                  </button>
+                </div>
               </div>
-            )}
+
+              {/* Fleet Summary Badges */}
+              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
+                <div style={{ padding: '0.5rem 0.85rem', background: 'rgba(0,0,0,0.25)', borderRadius: 'var(--adm-radius-sm)', border: '1px solid var(--adm-border)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--adm-text-secondary)' }}>Total Fleet:</span>
+                  <span style={{ fontWeight: 800, fontSize: '0.9rem', color: 'var(--adm-text-primary)' }}>{displayDevices.length}</span>
+                </div>
+                <div style={{ padding: '0.5rem 0.85rem', background: 'rgba(16, 185, 129, 0.1)', borderRadius: 'var(--adm-radius-sm)', border: '1px solid rgba(16, 185, 129, 0.25)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span style={{ fontSize: '0.75rem', color: '#34d399' }}>Assigned to this Event:</span>
+                  <span style={{ fontWeight: 800, fontSize: '0.9rem', color: '#34d399' }}>{assignedToThisCount}</span>
+                </div>
+                <div style={{ padding: '0.5rem 0.85rem', background: 'rgba(245, 158, 11, 0.1)', borderRadius: 'var(--adm-radius-sm)', border: '1px solid rgba(245, 158, 11, 0.25)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span style={{ fontSize: '0.75rem', color: '#fbbf24' }}>Unassigned iPads:</span>
+                  <span style={{ fontWeight: 800, fontSize: '0.9rem', color: '#fbbf24' }}>{unassignedCount}</span>
+                </div>
+              </div>
+
+              {displayDevices.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '3rem 1rem', color: 'var(--adm-text-muted)' }}>
+                  <IconSmartphone size={36} style={{ opacity: 0.35, marginBottom: '0.75rem' }} />
+                  <h4 style={{ margin: '0 0 0.35rem', color: 'var(--adm-text-primary)', fontSize: '1rem' }}>No Photobooth Kiosks Registered Yet</h4>
+                  <p style={{ margin: '0 0 1rem', fontSize: '0.84rem', maxWidth: '420px', marginLeft: 'auto', marginRight: 'auto' }}>
+                    Open the Pehchaan Photobooth iPad app to register your device, or scan the activation QR code to link it directly.
+                  </p>
+                  <button
+                    type="button"
+                    className="admin-btn admin-btn-primary"
+                    style={{ padding: '0.45rem 1rem', fontSize: '0.85rem' }}
+                    onClick={() => setShowQrModal(true)}
+                  >
+                    <IconQrCode size={15} />
+                    <span>View iPad Activation QR</span>
+                  </button>
+                </div>
+              ) : (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.15rem' }}>
+                  {displayDevices.map((d) => {
+                    const selectedEventId = selectedEventMap[d.deviceId] || event.eventId
+                    const isAssignedToThis = d.activeEventId === event.eventId
+                    const isAssignedToSelected = d.activeEventId === selectedEventId
+                    const isAssigning = assigningDeviceId === d.deviceId
+                    const isUnassigning = unassigningDeviceId === d.deviceId
+                    const feedback = actionFeedback?.deviceId === d.deviceId ? actionFeedback : null
+                    const assignedEv = allEvents.find((e) => e.eventId === d.activeEventId)
+
+                    return (
+                      <div
+                        key={d.deviceId}
+                        style={{
+                          padding: '1.25rem',
+                          background: isAssignedToThis ? 'rgba(16, 185, 129, 0.04)' : 'rgba(0,0,0,0.25)',
+                          borderRadius: 'var(--adm-radius-md)',
+                          border: isAssignedToThis ? '1px solid rgba(16, 185, 129, 0.35)' : '1px solid var(--adm-border)',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '0.85rem',
+                          position: 'relative',
+                        }}
+                      >
+                        {/* Device Header */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                            <span style={{ fontSize: '1.1rem' }}>📱</span>
+                            <span style={{ fontWeight: 800, fontSize: '0.96rem', color: 'var(--adm-text-primary)' }}>
+                              {d.deviceName}
+                            </span>
+                          </div>
+
+                          {d.status === 'revoked' ? (
+                            <span className="admin-badge admin-badge-cancelled">Revoked</span>
+                          ) : d.isOnline ? (
+                            <span className="admin-badge admin-badge-live" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'currentColor' }} />
+                              <span>Online</span>
+                            </span>
+                          ) : (
+                            <span className="admin-badge admin-badge-draft">Offline</span>
+                          )}
+                        </div>
+
+                        {/* Device Info */}
+                        <div style={{ fontSize: '0.78rem', color: 'var(--adm-text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.25rem', background: 'rgba(0,0,0,0.2)', padding: '0.65rem 0.85rem', borderRadius: 'var(--adm-radius-sm)' }}>
+                          <div>
+                            <strong>Device ID:</strong> <code style={{ color: 'var(--adm-gold)', userSelect: 'all', fontSize: '0.78rem' }}>{d.deviceId}</code>
+                          </div>
+                          <div>
+                            <strong>Platform:</strong> {d.platform} (v{d.appVersion})
+                          </div>
+                          <div>
+                            <strong>Last Heartbeat:</strong> {formatDateTime(d.lastHeartbeat || d.lastSeen)}
+                          </div>
+                        </div>
+
+                        {/* Assigned Event Display */}
+                        {isAssignedToThis ? (
+                          <div
+                            style={{
+                              padding: '0.55rem 0.75rem',
+                              background: 'rgba(16, 185, 129, 0.12)',
+                              border: '1px solid rgba(16, 185, 129, 0.3)',
+                              borderRadius: 'var(--adm-radius-sm)',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              gap: '0.2rem',
+                            }}
+                          >
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <span style={{ fontSize: '0.68rem', color: '#34d399', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                                Assigned to this Event
+                              </span>
+                              <span className="admin-badge admin-badge-live" style={{ fontSize: '0.65rem', padding: '0.1rem 0.4rem' }}>
+                                Active Kiosk
+                              </span>
+                            </div>
+                            <div style={{ fontSize: '0.86rem', fontWeight: 700, color: 'var(--adm-text-primary)' }}>
+                              ⭐ {event.name}
+                            </div>
+                            <code style={{ fontSize: '0.72rem', color: 'var(--adm-gold-light)' }}>{event.eventId}</code>
+                          </div>
+                        ) : d.activeEventId ? (
+                          <div
+                            style={{
+                              padding: '0.55rem 0.75rem',
+                              background: 'rgba(245, 158, 11, 0.08)',
+                              border: '1px solid rgba(245, 158, 11, 0.25)',
+                              borderRadius: 'var(--adm-radius-sm)',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              gap: '0.2rem',
+                            }}
+                          >
+                            <div style={{ fontSize: '0.68rem', color: '#fbbf24', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                              Assigned to Another Event
+                            </div>
+                            <div style={{ fontSize: '0.86rem', fontWeight: 700, color: 'var(--adm-text-primary)' }}>
+                              📌 {assignedEv ? assignedEv.name : d.activeEventId}
+                            </div>
+                            <code style={{ fontSize: '0.72rem', color: 'var(--adm-text-secondary)' }}>{d.activeEventId}</code>
+                          </div>
+                        ) : (
+                          <div
+                            style={{
+                              padding: '0.55rem 0.75rem',
+                              background: 'rgba(255, 255, 255, 0.03)',
+                              border: '1px dashed var(--adm-border)',
+                              borderRadius: 'var(--adm-radius-sm)',
+                            }}
+                          >
+                            <div style={{ fontSize: '0.68rem', color: 'var(--adm-text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                              Event Assignment
+                            </div>
+                            <div style={{ fontSize: '0.8rem', color: 'var(--adm-text-secondary)', marginTop: '0.15rem' }}>
+                              ⚪ No Event Assigned (iPad will skip sync until assigned)
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Event Assignment Controls */}
+                        <div
+                          style={{
+                            marginTop: 'auto',
+                            paddingTop: '0.65rem',
+                            borderTop: '1px solid var(--adm-border)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '0.45rem',
+                          }}
+                        >
+                          <label style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--adm-text-secondary)' }}>
+                            Assign to Event:
+                          </label>
+
+                          <select
+                            className="admin-input"
+                            style={{ fontSize: '0.8rem', padding: '0.45rem 0.7rem' }}
+                            value={selectedEventId}
+                            onChange={(e) =>
+                              setSelectedEventMap((prev) => ({ ...prev, [d.deviceId]: e.target.value }))
+                            }
+                            disabled={isAssigning || isUnassigning}
+                          >
+                            <option value={event.eventId}>
+                              ⭐ {event.name} ({event.eventId}) [This Event]
+                            </option>
+                            {allEvents
+                              .filter((ev) => ev.eventId !== event.eventId)
+                              .map((ev) => (
+                                <option key={ev.eventId} value={ev.eventId}>
+                                  {ev.name} ({ev.eventId}) {ev.venue ? `— ${ev.venue}` : ''}
+                                </option>
+                              ))}
+                          </select>
+
+                          <div style={{ display: 'flex', gap: '0.45rem', marginTop: '0.2rem' }}>
+                            <button
+                              type="button"
+                              className="admin-btn admin-btn-primary"
+                              style={{ flex: 1, padding: '0.4rem 0.65rem', fontSize: '0.78rem', justifyContent: 'center' }}
+                              disabled={isAssigning || isUnassigning || isAssignedToSelected}
+                              onClick={() => void handleAssign(d.deviceId, selectedEventId)}
+                            >
+                              {isAssigning
+                                ? '⏳ Assigning...'
+                                : isAssignedToSelected
+                                ? '✓ Assigned'
+                                : selectedEventId === event.eventId
+                                ? '⭐ Assign to this Event'
+                                : '🔗 Assign Event'}
+                            </button>
+
+                            {d.activeEventId && (
+                              <button
+                                type="button"
+                                className="admin-btn admin-btn-secondary"
+                                style={{
+                                  padding: '0.4rem 0.65rem',
+                                  fontSize: '0.78rem',
+                                  color: '#f87171',
+                                  borderColor: 'rgba(239, 68, 68, 0.3)',
+                                }}
+                                disabled={isAssigning || isUnassigning}
+                                onClick={() => void handleUnassign(d.deviceId)}
+                                title="Unassign active event from this photobooth"
+                              >
+                                {isUnassigning ? '⏳...' : '✕ Unassign'}
+                              </button>
+                            )}
+                          </div>
+
+                          {feedback && (
+                            <div
+                              style={{
+                                padding: '0.4rem 0.6rem',
+                                borderRadius: 'var(--adm-radius-sm)',
+                                fontSize: '0.74rem',
+                                background:
+                                  feedback.type === 'success'
+                                    ? 'rgba(16, 185, 129, 0.15)'
+                                    : 'rgba(239, 68, 68, 0.15)',
+                                color: feedback.type === 'success' ? '#34d399' : '#f87171',
+                                border: `1px solid ${
+                                  feedback.type === 'success'
+                                    ? 'rgba(16, 185, 129, 0.3)'
+                                    : 'rgba(239, 68, 68, 0.3)'
+                                }`,
+                                marginTop: '0.2rem',
+                              }}
+                            >
+                              {feedback.message}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )
+      })()}
 
       {/* 5. ACTIVATION QR MODAL */}
       {showQrModal && (

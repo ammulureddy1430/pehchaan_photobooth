@@ -99,6 +99,7 @@ describe('Step 5: Cloud / Backend Foundation Tests', () => {
       const device = await client.getDevice('dev-ipad-001')
       assert.equal(device.deviceId, 'dev-ipad-001')
       assert.equal(device.deviceName, 'Front Booth iPad 1')
+      assert.equal(device.activeEventId, null)
       assert.equal((device as any).token, undefined)
       assert.equal((device as any).secret, undefined)
 
@@ -106,6 +107,31 @@ describe('Step 5: Cloud / Backend Foundation Tests', () => {
       assert.ok(Array.isArray(list))
       assert.ok(list.length >= 2)
       assert.ok(list.some((d) => d.deviceId === 'dev-ipad-001'))
+    })
+
+    it('device registration and lookup returns assigned activeEventId when configured', async () => {
+      // 1. Create an event
+      const eventRes = await client.createEvent({
+        name: 'Tech Carnival 2026',
+      })
+      const eventId = eventRes.event.eventId
+
+      // 2. Assign event to device in DB (e.g. via admin or recordDeviceActivation)
+      db.prepare('UPDATE devices SET active_event_id = ? WHERE device_id = ?').run(eventId, 'dev-ipad-001')
+
+      // 3. Register / lookup device and verify activeEventId is returned
+      const getRes = await client.getDevice('dev-ipad-001')
+      assert.equal(getRes.activeEventId, eventId)
+
+      // 4. Repeated registration also returns assigned activeEventId
+      const regRes = await client.registerDevice({
+        deviceId: 'dev-ipad-001',
+        deviceName: 'Front Booth iPad 1',
+        platform: 'ipados',
+        appVersion: '0.1.2',
+      })
+      assert.equal(regRes.device.activeEventId, eventId)
+      assert.equal(regRes.isNew, false)
     })
 
     it('missing token is rejected on protected endpoints', async () => {

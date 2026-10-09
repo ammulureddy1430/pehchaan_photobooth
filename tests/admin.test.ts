@@ -1793,6 +1793,273 @@ describe('Admin & School Portal Backend Tests', () => {
       assert.ok(data.stats.recentEvents.length > 0)
     })
   })
+
+  // ----------------------------------------------------
+  // STEP 6: ADMIN PHOTOBOOTH FLEET & EVENT ASSIGNMENT
+  // ----------------------------------------------------
+  describe('Step 6: Admin Photobooth Device Fleet Management & Event Assignment', () => {
+    let adminToken: string
+    let assignableEventId: string
+    let cancelledEventId: string
+    const testIpadId = 'ipad-booth-assigned-01'
+
+    before(async () => {
+      adminToken = await getAdminAuthToken()
+
+      // Register an iPad kiosk
+      await fetch(`${baseUrl}/api/devices/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          deviceId: testIpadId,
+          deviceName: 'Front Desk iPad Pro',
+          platform: 'iPadOS',
+          appVersion: '2.1.0',
+        }),
+      })
+
+      // Create an assignable event
+      const evRes = await fetch(`${baseUrl}/api/admin/events`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${adminToken}` },
+        body: JSON.stringify({
+          name: 'Science & Robotics Gala 2026',
+          venue: 'Auditorium Hall B',
+          eventDate: '2026-12-10',
+          startTime: '10:00',
+          endTime: '16:00',
+        }),
+      })
+      const evData = await evRes.json()
+      assignableEventId = evData.event.eventId
+
+      // Create a cancelled event
+      const canRes = await fetch(`${baseUrl}/api/admin/events`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${adminToken}` },
+        body: JSON.stringify({
+          name: 'Cancelled Science Fair',
+          venue: 'Gymnasium',
+          eventDate: '2026-12-11',
+          startTime: '10:00',
+          endTime: '14:00',
+        }),
+      })
+      const canData = await canRes.json()
+      cancelledEventId = canData.event.eventId
+      await fetch(`${baseUrl}/api/admin/events/${cancelledEventId}/cancel`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${adminToken}` },
+      })
+    })
+
+    it('66. GET /api/admin/devices lists registered fleet devices with activeEventId', async () => {
+      const res = await fetch(`${baseUrl}/api/admin/devices`, {
+        headers: { Authorization: `Bearer ${adminToken}` },
+      })
+      assert.equal(res.status, 200)
+      const data = await res.json()
+      assert.equal(data.success, true)
+      assert.ok(Array.isArray(data.devices))
+      const found = data.devices.find((d: any) => d.deviceId === testIpadId)
+      assert.ok(found)
+      assert.equal(found.deviceName, 'Front Desk iPad Pro')
+      assert.equal(found.activeEventId, null)
+    })
+
+    it('67. Admin assigns existing Event to existing Device (A)', async () => {
+      const res = await fetch(`${baseUrl}/api/admin/devices/${testIpadId}/assign-event`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${adminToken}` },
+        body: JSON.stringify({ eventId: assignableEventId }),
+      })
+
+      assert.equal(res.status, 200)
+      const data = await res.json()
+      assert.equal(data.success, true)
+      assert.equal(data.device.deviceId, testIpadId)
+      assert.equal(data.device.activeEventId, assignableEventId)
+
+      // Verify GET /api/devices/:deviceId reflects activeEventId
+      const getDevRes = await fetch(`${baseUrl}/api/devices/${testIpadId}`)
+      assert.equal(getDevRes.status, 200)
+      const devData = await getDevRes.json()
+      assert.equal(devData.device.activeEventId, assignableEventId)
+    })
+
+    it('68. iPad Registration after Assignment returns real assigned eventId (B)', async () => {
+      const regRes = await fetch(`${baseUrl}/api/devices/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          deviceId: testIpadId,
+          deviceName: 'Front Desk iPad Pro (Updated)',
+          platform: 'iPadOS',
+          appVersion: '2.1.1',
+        }),
+      })
+
+      assert.equal(regRes.status, 200)
+      const regData = await regRes.json()
+      assert.equal(regData.isNew, false)
+      assert.equal(regData.device.deviceId, testIpadId)
+      assert.equal(regData.device.activeEventId, assignableEventId)
+    })
+
+    it('69. Admin unassigns event via POST /api/admin/devices/:deviceId/unassign-event (C)', async () => {
+      const res = await fetch(`${baseUrl}/api/admin/devices/${testIpadId}/unassign-event`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${adminToken}` },
+      })
+
+      assert.equal(res.status, 200)
+      const data = await res.json()
+      assert.equal(data.success, true)
+      assert.equal(data.device.activeEventId, null)
+
+      // Subsequent iPad registration returns activeEventId: null
+      const regRes = await fetch(`${baseUrl}/api/devices/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          deviceId: testIpadId,
+          deviceName: 'Front Desk iPad Pro',
+          platform: 'iPadOS',
+          appVersion: '2.1.1',
+        }),
+      })
+      const regData = await regRes.json()
+      assert.equal(regData.device.activeEventId, null)
+    })
+
+    it('70. Admin unassigns event via POST /api/admin/devices/:deviceId/assign-event with null eventId', async () => {
+      // Re-assign first
+      await fetch(`${baseUrl}/api/admin/devices/${testIpadId}/assign-event`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${adminToken}` },
+        body: JSON.stringify({ eventId: assignableEventId }),
+      })
+
+      // Unassign with eventId: null
+      const res = await fetch(`${baseUrl}/api/admin/devices/${testIpadId}/assign-event`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${adminToken}` },
+        body: JSON.stringify({ eventId: null }),
+      })
+
+      assert.equal(res.status, 200)
+      const data = await res.json()
+      assert.equal(data.success, true)
+      assert.equal(data.device.activeEventId, null)
+    })
+
+    it('71. Assigning to unknown device returns 404 DEVICE_NOT_FOUND (D)', async () => {
+      const res = await fetch(`${baseUrl}/api/admin/devices/non-existent-device-999/assign-event`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${adminToken}` },
+        body: JSON.stringify({ eventId: assignableEventId }),
+      })
+
+      assert.equal(res.status, 404)
+      const data = await res.json()
+      assert.equal(data.error.code, 'DEVICE_NOT_FOUND')
+    })
+
+    it('72. Assigning unknown event returns 404 NOT_FOUND (E)', async () => {
+      const res = await fetch(`${baseUrl}/api/admin/devices/${testIpadId}/assign-event`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${adminToken}` },
+        body: JSON.stringify({ eventId: 'evt_completely_unknown_xyz' }),
+      })
+
+      assert.equal(res.status, 404)
+      const data = await res.json()
+      assert.equal(data.error.code, 'NOT_FOUND')
+    })
+
+    it('73. Unauthorized / non-admin request is rejected with 401 (F)', async () => {
+      // Missing token
+      const res1 = await fetch(`${baseUrl}/api/admin/devices/${testIpadId}/assign-event`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ eventId: assignableEventId }),
+      })
+      assert.equal(res1.status, 401)
+
+      // Invalid token
+      const res2 = await fetch(`${baseUrl}/api/admin/devices/${testIpadId}/assign-event`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer invalid.token' },
+        body: JSON.stringify({ eventId: assignableEventId }),
+      })
+      assert.equal(res2.status, 401)
+    })
+
+    it('74. Cross-school event assignment is rejected with 403 Forbidden (G)', async () => {
+      // Ensure foreign school and admin exist in DB
+      db.prepare(
+        `INSERT OR IGNORE INTO school_profiles (id, school_name, contact_person, email, phone, address, logo_url, created_at, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      ).run(
+        'sch_other_foreign',
+        'Other Foreign School',
+        'Foreign Coordinator',
+        'foreign@otherschool.edu',
+        '+91 99999 88888',
+        'Other City',
+        null,
+        Date.now(),
+        Date.now()
+      )
+
+      db.prepare(
+        `INSERT OR IGNORE INTO admin_users (id, email, password_hash, salt, name, role, school_id, created_at, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      ).run(
+        'admin_foreign_99',
+        'foreign@otherschool.edu',
+        'dummyhash',
+        'dummysalt',
+        'Foreign Admin',
+        'school_admin',
+        'sch_other_foreign',
+        Date.now(),
+        Date.now()
+      )
+
+      // Create admin token for a different school
+      const foreignAdminToken = generateAdminToken({
+        id: 'admin_foreign_99',
+        email: 'foreign@otherschool.edu',
+        name: 'Foreign Admin',
+        role: 'school_admin',
+        schoolId: 'sch_other_foreign',
+      })
+
+      const res = await fetch(`${baseUrl}/api/admin/devices/${testIpadId}/assign-event`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${foreignAdminToken}` },
+        body: JSON.stringify({ eventId: assignableEventId }),
+      })
+
+      assert.equal(res.status, 403)
+      const data = await res.json()
+      assert.equal(data.error.code, 'FORBIDDEN')
+    })
+
+    it('75. Assigning cancelled event is rejected with 400 EVENT_CANCELLED', async () => {
+      const res = await fetch(`${baseUrl}/api/admin/devices/${testIpadId}/assign-event`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${adminToken}` },
+        body: JSON.stringify({ eventId: cancelledEventId }),
+      })
+
+      assert.equal(res.status, 400)
+      const data = await res.json()
+      assert.equal(data.error.code, 'EVENT_CANCELLED')
+    })
+  })
 })
+
 
 

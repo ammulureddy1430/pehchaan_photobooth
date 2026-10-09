@@ -276,3 +276,33 @@ export async function adminDeleteInquiry(
   )
 }
 
+// Device Management & Event Assignment APIs
+export async function adminGetDevices(): Promise<{ success: boolean; devices: import('../../api/types').ApiDeviceInfo[] }> {
+  return request<{ success: boolean; devices: import('../../api/types').ApiDeviceInfo[] }>('/api/admin/devices')
+}
+
+export async function adminAssignDeviceEvent(
+  deviceId: string,
+  eventId: string
+): Promise<{ success: boolean; device: import('../../api/types').ApiDeviceInfo }> {
+  return request<{ success: boolean; device: import('../../api/types').ApiDeviceInfo }>(
+    `/api/admin/devices/${encodeURIComponent(deviceId)}/assign-event`,
+    {
+      method: 'POST',
+      body: JSON.stringify({ eventId }),
+    }
+  )
+}
+
+export async function adminUnassignDeviceEvent(
+  deviceId: string
+): Promise<{ success: boolean; device: import('../../api/types').ApiDeviceInfo }> {
+  return request<{ success: boolean; device: import('../../api/types').ApiDeviceInfo }>(
+    `/api/admin/devices/${encodeURIComponent(deviceId)}/unassign-event`,
+    {
+      method: 'POST',
+    }
+  )
+}
+
+

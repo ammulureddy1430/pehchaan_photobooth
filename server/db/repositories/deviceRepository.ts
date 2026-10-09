@@ -39,6 +39,7 @@ export class DeviceRepository {
       lastSeen: Number(row.last_seen),
       lastHeartbeat: row.last_heartbeat ? Number(row.last_heartbeat) : null,
       revokedAt: row.revoked_at ? Number(row.revoked_at) : null,
+      activeEventId: row.active_event_id ?? null,
       metadata: row.metadata_json ? JSON.parse(row.metadata_json) : null,
     }
   }
@@ -54,6 +55,7 @@ export class DeviceRepository {
       lastSeen: device.lastSeen,
       lastHeartbeat: device.lastHeartbeat,
       revokedAt: device.revokedAt,
+      activeEventId: device.activeEventId,
       metadata: device.metadata,
     }
   }

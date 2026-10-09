@@ -323,6 +323,7 @@ export interface DashboardDeviceItem {
   isOnline: boolean
   syncStatus: 'synced' | 'pending' | 'syncing'
   pendingOutboxCount: number
+  activeEventId?: string | null
 }
 
 export interface DashboardSyncStats {

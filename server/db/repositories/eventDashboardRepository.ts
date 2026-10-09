@@ -322,11 +322,13 @@ export class EventDashboardRepository {
     // 5. Device & Booth Metrics
     const activationRows = this.db
       .prepare(
-        `SELECT d.*, a.activated_at, a.last_active_at FROM devices d
-         JOIN device_event_activations a ON d.device_id = a.device_id
-         WHERE a.event_id = ? ORDER BY a.last_active_at DESC`
+        `SELECT d.*, MAX(a.activated_at) as activated_at, MAX(a.last_active_at) as last_active_at FROM devices d
+         LEFT JOIN device_event_activations a ON d.device_id = a.device_id AND a.event_id = ?
+         WHERE d.active_event_id = ? OR a.event_id = ?
+         GROUP BY d.device_id
+         ORDER BY COALESCE(MAX(a.last_active_at), d.last_seen) DESC`
       )
-      .all(event.eventId) as any[]
+      .all(event.eventId, event.eventId, event.eventId) as any[]
 
     const now = Date.now()
     const devices = activationRows.map((d) => {
@@ -341,8 +343,9 @@ export class EventDashboardRepository {
         registeredAt: Number(d.registered_at),
         lastSeen,
         lastHeartbeat: d.last_heartbeat ? Number(d.last_heartbeat) : null,
-        activatedAt: Number(d.activated_at),
-        lastActiveAt: Number(d.last_active_at),
+        activatedAt: d.activated_at ? Number(d.activated_at) : Number(d.registered_at),
+        lastActiveAt: d.last_active_at ? Number(d.last_active_at) : lastSeen,
+        activeEventId: d.active_event_id ?? null,
         isOnline,
         syncStatus: 'synced' as const,
         pendingOutboxCount: 0,

@@ -441,6 +441,8 @@ export function createRequestHandler(ctx: AppContext) {
       const adminEventActivationRegenMatch = pathname.match(/^\/api\/admin\/events\/([^/]+)\/activation\/regenerate$/)
       const adminEventCancelMatch = pathname.match(/^\/api\/admin\/events\/([^/]+)\/cancel$/)
       const adminEventDetailsMatch = pathname.match(/^\/api\/admin\/events\/([^/]+)$/)
+      const adminAssignEventMatch = pathname.match(/^\/api\/admin\/devices\/([^/]+)\/assign-event$/)
+      const adminUnassignEventMatch = pathname.match(/^\/api\/admin\/devices\/([^/]+)\/unassign-event$/)
 
       // GET /api/admin/events/:eventId/dashboard
       if (method === 'GET' && adminEventDashboardMatch) {
@@ -848,6 +850,84 @@ export function createRequestHandler(ctx: AppContext) {
           eventId: event.eventId,
           activationToken: newToken,
         })
+        return
+      }
+
+      // ----------------------------------------------------
+      // ADMIN DEVICE MANAGEMENT & EVENT ASSIGNMENT ROUTES
+      // ----------------------------------------------------
+
+      // GET /api/admin/devices
+      if (method === 'GET' && pathname === '/api/admin/devices') {
+        authenticateAdmin(req, ctx.adminRepo)
+        const devices = ctx.deviceRepo.listDevices()
+        sendJson(res, 200, { success: true, devices })
+        return
+      }
+
+      // POST /api/admin/devices/:deviceId/assign-event
+      if (method === 'POST' && adminAssignEventMatch) {
+        const admin = authenticateAdmin(req, ctx.adminRepo)
+        const deviceId = decodeURIComponent(adminAssignEventMatch[1])
+        const device = ctx.deviceRepo.getDevice(deviceId)
+        if (!device) {
+          throw new AppError(404, 'DEVICE_NOT_FOUND', `Device ${deviceId} not found`)
+        }
+
+        const body = await readJsonBody(req)
+        const targetEventId = body.eventId !== undefined && body.eventId !== null ? String(body.eventId).trim() : ''
+
+        if (!targetEventId) {
+          if (device.activeEventId) {
+            const currentEvent = ctx.eventRepo.getEvent(device.activeEventId)
+            if (currentEvent && admin.role !== 'admin' && admin.schoolId && currentEvent.schoolId && admin.schoolId !== currentEvent.schoolId) {
+              throw new AppError(403, 'FORBIDDEN', 'You do not have permission to unassign this event.')
+            }
+          }
+          ctx.eventRepo.recordDeviceDeactivation(deviceId)
+          const updated = ctx.deviceRepo.getDevice(deviceId)!
+          sendJson(res, 200, { success: true, device: ctx.deviceRepo.toSafe(updated) })
+          return
+        }
+
+        const event = ctx.eventRepo.getEvent(targetEventId)
+        if (!event) {
+          throw new AppError(404, 'NOT_FOUND', `Event ${targetEventId} not found`)
+        }
+
+        if (admin.role !== 'admin' && admin.schoolId && event.schoolId && admin.schoolId !== event.schoolId) {
+          throw new AppError(403, 'FORBIDDEN', 'You do not have permission to assign this event.')
+        }
+
+        if (event.status === 'cancelled') {
+          throw new AppError(400, 'EVENT_CANCELLED', `Event "${event.name}" is cancelled and cannot be assigned to photobooth kiosks.`)
+        }
+
+        ctx.eventRepo.recordDeviceActivation(deviceId, event.eventId, event.activationToken || undefined)
+        const updated = ctx.deviceRepo.getDevice(deviceId)!
+        sendJson(res, 200, { success: true, device: ctx.deviceRepo.toSafe(updated) })
+        return
+      }
+
+      // POST /api/admin/devices/:deviceId/unassign-event
+      if (method === 'POST' && adminUnassignEventMatch) {
+        const admin = authenticateAdmin(req, ctx.adminRepo)
+        const deviceId = decodeURIComponent(adminUnassignEventMatch[1])
+        const device = ctx.deviceRepo.getDevice(deviceId)
+        if (!device) {
+          throw new AppError(404, 'DEVICE_NOT_FOUND', `Device ${deviceId} not found`)
+        }
+
+        if (device.activeEventId) {
+          const currentEvent = ctx.eventRepo.getEvent(device.activeEventId)
+          if (currentEvent && admin.role !== 'admin' && admin.schoolId && currentEvent.schoolId && admin.schoolId !== currentEvent.schoolId) {
+            throw new AppError(403, 'FORBIDDEN', 'You do not have permission to unassign this event.')
+          }
+        }
+
+        ctx.eventRepo.recordDeviceDeactivation(deviceId)
+        const updated = ctx.deviceRepo.getDevice(deviceId)!
+        sendJson(res, 200, { success: true, device: ctx.deviceRepo.toSafe(updated) })
         return
       }
 
@@ -1873,7 +1953,7 @@ export function createRequestHandler(ctx: AppContext) {
 
         // 1. Load Session or Safely Auto-Register if sync is racing
         let session = ctx.sessionRepo.getSession(sessionId)
-        let event: import('./db/types.js').DbEvent | null = null
+        let event: import('./db/types.js').EventRecord | null = null
 
         if (session) {
           event = ctx.eventRepo.getEvent(session.eventId)
@@ -1901,10 +1981,10 @@ export function createRequestHandler(ctx: AppContext) {
               throw new AppError(404, 'EVENT_NOT_FOUND', 'No active event found for session payment creation')
             }
             const individualEvent = allEvents.find((e) => {
-              const cfg = e.eventPackSnapshot?.payment || ctx.eventConfigRepo.getConfiguration(e.eventId)?.payment
+              const cfg = (e.eventPackSnapshot?.payment as any) || ctx.eventConfigRepo.getConfiguration(e.eventId)?.payment
               return cfg?.mode === 'individual'
             })
-            const liveEvent = allEvents.find((e) => e.status === 'live' || e.status === 'ready' || e.status === 'active')
+            const liveEvent = allEvents.find((e) => e.status === 'live')
             event = individualEvent || liveEvent || allEvents[0]
           }
 
@@ -1916,7 +1996,7 @@ export function createRequestHandler(ctx: AppContext) {
           const createdSessionResult = ctx.sessionRepo.createSession(event.eventId, {
             sessionId: sessionId.trim(),
             deviceId,
-            shotCount: event.eventPackSnapshot?.shotCount || 3,
+            shotCount: ((event.eventPackSnapshot as any)?.shotCount as number) || 3,
             language: 'en',
             status: 'in_progress',
             createdAt: Date.now(),
@@ -1925,7 +2005,7 @@ export function createRequestHandler(ctx: AppContext) {
         }
 
         // 3. Load Event Config / Snapshot
-        let paymentConfig = event.eventPackSnapshot?.payment
+        let paymentConfig: any = event.eventPackSnapshot?.payment
         if (!paymentConfig) {
           const config = ctx.eventConfigRepo.getConfiguration(session.eventId)
           paymentConfig = config?.payment
@@ -2201,7 +2281,7 @@ export function createRequestHandler(ctx: AppContext) {
           gatewayPaymentId: event.gatewayPaymentId || payment.gatewayPaymentId,
           webhookEventId: event.eventId,
           webhookReceivedAt: Date.now(),
-          verifiedAt: (newStatus === 'success' || newStatus === 'paid') ? Date.now() : payment.verifiedAt,
+          verifiedAt: newStatus === 'paid' ? Date.now() : payment.verifiedAt,
           failureReason: event.failureReason || null,
           errorMessage: event.failureReason || null,
           metadata: {
